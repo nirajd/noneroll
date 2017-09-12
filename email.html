@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+    <meta property="og:title" content="Bulk Emails">
+    <title>Bulk Email Summary</title>
+    <style>a{color:rgb(63,138,191) !important;text-decoration:none;}</style>
+  </head>
+
+  <body style="width: 100%;margin: 0;padding: 0;-webkit-font-smoothing: antialiased;text-align:center;" align="center">
+    <table border="0" cellspacing="0" cellpadding="0" style="max-width:500px;margin:auto;text-align:left">
+      <tbody>
+          <tr>
+              <td><div style="height: 10px;"></div></td>
+          </tr>
+          <? var data = getEmails() ?>
+          <? for (var i = 0; i < data.length; i++) { ?>
+
+          <tr>
+            <td style="background-color: #fff; border:1px solid #d5dce0;border-radius: 10px;box-shadow: 0 2px 4px rgba(0,0,0,0.18);" bgcolor="#fff">
+              <div style="padding: 0 10px; margin: 0; display: block;">
+                <h4 style="font-family: Georgia, Times, sans; font-weight: normal; color: #666; font-size: 13px; margin: 0; padding-top: 12px;">
+
+                <?= data[i].from ?> wrote:
+
+                </h4>
+              </div>
+
+              <p style="font-family: Georgia, Times, sans; color: #666; padding: 5px 10px 0;margin: 0; font-size: 14px;">
+                <strong><?= data[i].subject ?></strong>
+              </p>
+              <p style="font-family: Georgia, Times, sans; color: #999; padding: 0 10px 10px; margin: 0; font-size: 10px;">
+                at <?= Utilities.formatDate(data[i].date, Session.getScriptTimeZone(), "HH:mm 'on' MMM d") ?>
+                from <?= data[i].email ?>
+              <? if(data[i].uns) { ?>
+              | <a style="background-color: #eee; border: 1px solid #ccc; border-radius: 2px; padding:0 2px" bgcolor="#eee"
+              href="<?= data[i].uns ?>">unsubscribe</a>
+              </p>
+              <? } ?>
+            </td>
+        </tr>
+        <tr>
+          <td><div style="height: 15px;"></div></td>
+        </tr>
+        <? } ?>
+
+      </tbody>
+    </table>
+  </body>
+</html>
