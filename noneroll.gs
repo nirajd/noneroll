@@ -12,7 +12,6 @@ function arch() {
       var msg = threads[i].getMessages()[0];
       var email = msg.getFrom().replace(/^.+<([^>]+)>$/, "$1");
       if(values.indexOf(email) > -1){
-        //Logger.log('here?')
         threads[i].addLabel(label);
         threads[i].markRead();
         threads[i].moveToArchive();
@@ -67,9 +66,6 @@ function getEmails() {
           }
         }
       }
-      if(d.uns === null){
-        Logger.log(d.subject)
-      }
       data.push(d)
     } else {
       break
@@ -91,6 +87,5 @@ function noneroll() {
       subject: subject,
       htmlBody: hB
     });
-    //Logger.log(top + ct + end)
   }
 }
