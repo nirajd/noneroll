@@ -54,17 +54,28 @@ function getEmails() {
       d.uns = null
       
       var uns = threads[i].getMessages()[0].getRawContent().match(/^list\-unsubscribe:(.|\r\n\s)+<(https?:\/\/[^>]+)>/im);
+      Logger.log(uns+"\n\n")
       if(uns) {
-        d.uns = uns
+        d.uns = uns[uns.length-1]
       } else {
       
         var rex = /.*?<a[^>]*href=["'](https?:\/\/[^"']+)["'][^>]*>(.*?)<\/a>.*?/gi
         while(u = rex.exec(threads[i].getMessages()[0].getBody())){
           if(u[0].toLowerCase().indexOf('unsubscribe')!==-1){
-            d.uns=u[1]
-            break
+            for(var i = u.length-1; i >=0; i--){
+              if(u[i].substring(0,4)=="http"){
+                d.uns=u[i]
+                break
+              }
+            }
+            if(d.uns){
+              break
+            }          
           }
         }
+      }
+      if(d.uns === null){
+        Logger.log(d.subject)
       }
       data.push(d)
     } else {
@@ -73,6 +84,7 @@ function getEmails() {
   }
   return data;
 }
+
 
 //run every day to send summary email including emails from last 24 hours
 function noneroll() {
