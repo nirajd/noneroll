@@ -62,9 +62,9 @@ function getEmails() {
         var rex = /.*?<a[^>]*href=["'](https?:\/\/[^"']+)["'][^>]*>(.*?)<\/a>.*?/gi
         while(u = rex.exec(threads[i].getMessages()[0].getBody())){
           if(u[0].toLowerCase().indexOf('unsubscribe')!==-1){
-            for(var i = u.length-1; i >=0; i--){
-              if(u[i].substring(0,4)=="http"){
-                d.uns=u[i]
+            for(var j = u.length-1; j >=0; j--){
+              if(u[j].substring(0,4)=="http"){
+                d.uns=u[j]
                 break
               }
             }
@@ -73,9 +73,6 @@ function getEmails() {
             }          
           }
         }
-      }
-      if(d.uns === null){
-        Logger.log(d.subject)
       }
       data.push(d)
     } else {
