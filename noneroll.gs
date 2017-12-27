@@ -48,19 +48,24 @@ function getEmails() {
     if (threads[i].getLastMessageDate()>maxDate){
       var d = {}
       d.subject = threads[i].getFirstMessageSubject()
-      d.from = threads[i].getMessages()[0].getFrom().replace(/\"|<.*>/g,'')
+      var from = threads[i].getMessages()[0].getFrom()
+      d.from = from.replace(/\"|<.*>/g,'')
       d.date = threads[i].getLastMessageDate()
-      d.email = threads[i].getMessages()[0].getFrom().match(/<(.*)>/)[1]
+      if (from.match(/<(.*)>/)!==null){
+        d.email = from.match(/<(.*)>/)[1]
+      } else {
+        d.email = from
+      }
       d.uns = null
       
       var uns = threads[i].getMessages()[0].getRawContent().match(/^list\-unsubscribe:(.|\r\n\s)+<(https?:\/\/[^>]+)>/im);
-      Logger.log(uns+"\n\n")
       if(uns) {
         d.uns = uns[uns.length-1]
       } else {
-      
-        var rex = /.*?<a[^>]*href=["'](https?:\/\/[^"']+)["'][^>]*>(.*?)<\/a>.*?/gi
-        while(u = rex.exec(threads[i].getMessages()[0].getBody())){
+        var rex = /.*?<a[^>]*href=["'](https?:\/\/[^"']+)["'][^>]*>(.*?[Uu]nsubscribe.*?)<\/a>.*?/gi
+        body_t = threads[i].getMessages()[0].getBody()
+        while(u = rex.exec(body_t)){
+          Logger.log("regmatch" + u.length)
           if(u[0].toLowerCase().indexOf('unsubscribe')!==-1){
             for(var j = u.length-1; j >=0; j--){
               if(u[j].substring(0,4)=="http"){
@@ -70,7 +75,8 @@ function getEmails() {
             }
             if(d.uns){
               break
-            }          
+            }
+            
           }
         }
       }
@@ -85,12 +91,14 @@ function getEmails() {
 
 //run every day to send summary email including emails from last 24 hours
 function noneroll() {
-  if(getEmails().length > 0) {
+  emails = getEmails()
+  if(emails.length > 0) {
     var date = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd');
     var subject = "Bulk Emails: " + date;
-    var hB = HtmlService
-      .createTemplateFromFile('email')
-      .evaluate().getContent()
+    var t = HtmlService
+      .createTemplateFromFile('email');
+    t.data = emails;
+    var hB = t.evaluate().getContent();
     MailApp.sendEmail({
       to: Session.getActiveUser().getEmail(),
       subject: subject,
