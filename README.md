@@ -7,13 +7,20 @@ Basically, this is `unroll.me` without any 3rd party access or [creepy data brok
 ## Configuration
 
 1. Create a new spreadsheet in Google Sheets. Name it whatever you'd like.
+
   - This spreadsheet will be used to keep track of low priority email addresses.
+
 2. Create a new Gmail label. Mine is called `zbulk`, but you are more than welcome to be creative.
+
   - Should you decide on a different label, replace every instance of `zbulk` in the `noneroll.gs` file to whatever name you have choosen.
+
 3. Create a new Google Apps Script project.
+
   - Copy code from `noneroll.gs` to the project's `Code.gs` file.
   - Replace `sheetID` with the ID of the sheet (everything after `spreadsheets/d/` and before `/edit#` in the sheet's URL) that you created in Step 1.
-3. Create project triggers. I am currently using the following settings:
+
+4. Create project triggers. I am currently using the following settings:
+
   - `arch` every 15 mins
   - `addEmail` between midnight and 1am
   - `noneroll` between 5 and 6am
