@@ -21,9 +21,12 @@ Basically, this is `unroll.me` without any 3rd party access or [creepy data brok
 
 4. Create project triggers. I am currently using the following settings:
 
-  - `arch` every 15 mins
-  - `addEmail` between midnight and 1am
-  - `noneroll` between 5 and 6am
+  - `arch` every 15 mins.
+    - Archives and labels email.
+  - `addEmail` between midnight and 1am.
+    - Adds labeled email addresses to spreadsheet.
+  - `noneroll` between 5 and 6am.
+    - Sends digest of emails from past 24 hours.
 
 ## Notes
 
