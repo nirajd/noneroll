@@ -47,6 +47,7 @@ function getEmails() {
   for (var i = 0; i < threads.length; i++) {
     if (threads[i].getLastMessageDate()>maxDate){
       var d = {}
+      d.permalink = threads[i].getPermalink()
       d.subject = threads[i].getFirstMessageSubject()
       var from = threads[i].getMessages()[0].getFrom()
       d.from = from.replace(/\"|<.*>/g,'')
