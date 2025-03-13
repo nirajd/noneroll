@@ -1,3 +1,5 @@
+Lots of improvements here: https://github.com/boogah/noneroll.
+
 # noneroll
 archive low priority emails and send daily summary (unroll.me without 3rd party access)
 
