@@ -1,40 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta property="og:title" content="Bulk Emails">
   <title>Bulk Email Summary</title>
+  <style>
+    body {
+      font-family: 'Atkinson Hyperlegible', Helvetica, Arial, sans-serif;
+      color: #161616;
+      margin: 0;
+      padding: 1em;
+      background-color: #f9f9f9;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1em;
+    }
+    td {
+      vertical-align: top;
+      padding: 1em;
+      border-bottom: 1px solid #ddd;
+    }
+    .email-from h4 {
+      margin: 0;
+      padding-top: 12px;
+      font-weight: normal;
+    }
+    .email-from a {
+      color: #3f8abf;
+      text-decoration: none;
+    }
+    .email-time {
+      margin: 0;
+      color: #555;
+    }
+    .unsubscribe a {
+      display: inline-block;
+      color: #fff;
+      padding: 0.25em 0.5em;
+      background-color: #3f8abf;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+    .email-subject a {
+      font-size: 1.5em;
+      color: #161616;
+      text-decoration: none;
+    }
+  </style>
 </head>
 
 <body>
-  <table border="0" cellspacing="1em" cellpadding="1em">
+  <table>
     <tbody>
       <? for (var i = 0; i < data.length; i++) { ?>
         <tr>
-          <td style='margin: 0 1em 0 0;'>
-            <h4 style="margin: 0; padding-top: 12px;font-weight:normal">
-              <a style="color:rgb(63,138,191) !important;text-decoration:none;"
-              href="mailto:<?= data[i].email ?>"><?= data[i].from ?></a>
-            </h4>
-            <p style="margin: 0;">
+          <td>
+            <div class="email-from">
+              <h4>
+                <a href="mailto:<?= data[i].email ?>"><?= data[i].from ?></a>
+              </h4>
+            </div>
+            <p class="email-time">
               at <?= Utilities.formatDate(data[i].date, Session.getScriptTimeZone(), "HH:mm 'on' MMM d") ?>
             </p>
-            <p style="margin: 0;">
-              <? if(data[i].uns) { ?>
-                <a style="display:inline-block;color:rgb(255,255,255); padding:0.25em; background:rgb(63,138,191); border-radius: 5px !important;text-decoration:none;"
-                href="<?= data[i].uns ?>">unsubscribe</a>
-              <? } ?>
+            <? if (data[i].uns) { ?>
+            <p class="unsubscribe">
+              <a href="<?= data[i].uns ?>">unsubscribe</a>
             </p>
-          </td>  
-          <td>
-            <p style="margin: 0; padding: 0;">
-              <a style='font-size:1.5em !important; color:rgb(22,22,22) !important; text-decoration:none;' href="<?= data[i].permalink?>"><?= data[i].subject ?></a>
+            <? } ?>
+          </td>
+          <td class="email-subject">
+            <p style="margin: 0;">
+              <a href="<?= data[i].permalink ?>"><?= data[i].subject ?></a>
             </p>
           </td>
-        </tr> 
+        </tr>
       <? } ?>
-            
     </tbody>
   </table>
 </body>
